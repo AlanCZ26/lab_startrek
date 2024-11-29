@@ -28,6 +28,7 @@ std::pair<double, long double> run(const double& time_increment) {
 
     double distance = 2000.0 * 1000.0 + radius; // In meters. We add the radius (distance surface -> core) to the distance from the probe to the surface to find total initial distance.
     // We use this variable to keep track of progress.
+    // We will define 0 distance to be the core of the planet, with smaller numbers being closer to the core.
 
     /*
      * We will assume no air friction or outside forces. This will make our estimate lower than actuality -- therefore the Vulcans should have more time than we predict.
@@ -54,7 +55,7 @@ std::pair<double, long double> run(const double& time_increment) {
         time += time_increment;
         /*
          * Δx = (v + v0)/2 * t
-         * The distance traveled is approximated by the average velocity in some interval, multiplied by the length of that intervla.
+         * The distance traveled is approximated by the average velocity in some interval time, multiplied by the length of that intervla.
          * We will assume that for a given time interval, the acceleration is constant. This will slightly decrease our estimate; however,
          * with lower [time_increment] values, this approximation will more and more closely match the true time
          */
@@ -88,7 +89,7 @@ std::pair<double, long double> run(const double& time_increment) {
         /*
          * As above.
          * Δx = (v + v0)/2 * t
-         * The distance traveled is approximated by the average velocity in some interval, multiplied by the length of that interval.
+         * The distance traveled is approximated by the average velocity in some interval time, multiplied by the length of that interval.
          */
         distance -= ((velocity + prev_velocity) / 2) * time_increment;
 
