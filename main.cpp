@@ -18,6 +18,7 @@ std::pair<double, long double> run(const double& time_increment) {
     const double bigG_times_m1 = 13.73 * std::pow(radius, 2); // This variable is used to speed up calculations down the line.
     const double clock_initial = clock(); // to keep track of how long it takes to calculate everything
 
+    // Moving variables:
     double gravity; // Variable used during calculations
     long double time = 0; // in seconds, this is the output variable
 
@@ -54,10 +55,17 @@ std::pair<double, long double> run(const double& time_increment) {
         /*
          * Δx = (v + v0)/2 * t
          * The distance traveled is approximated by the average velocity in some interval, multiplied by the length of that intervla.
+         * We will assume that for a given time interval, the acceleration is constant. This will slightly decrease our estimate; however,
+         * with lower [time_increment] values, this approximation will more and more closely match the true time
          */
         distance -= ((velocity + prev_velocity) / 2) * time_increment;
 
-        prev_velocity = velocity; // Set previous velocity to current end velocity
+        /*
+         * Set previous velocity to current end velocity -- each interval is immediately connected to the previous;
+         * thus the beginning velocity for one interval is equal to the ending velocity for the previous.
+         */
+        prev_velocity = velocity;
+
     }
     /*
      * we split the calculation into two parts: above the surface, calculated above, and below the surface.
@@ -75,6 +83,7 @@ std::pair<double, long double> run(const double& time_increment) {
          * As above, v1 = v0 + at
          */
         velocity += gravity * time_increment;
+
         time += time_increment; // As above
         /*
          * As above.
@@ -85,7 +94,9 @@ std::pair<double, long double> run(const double& time_increment) {
 
         prev_velocity = velocity;
     }
+    // Printing data about the current calculation
     std::cout << "step:" << time_increment <<"s; result time: " << time << "s, or " << time / 60 << "mins" << " >>> [processing time:" << (clock() - clock_initial)/ CLOCKS_PER_SEC << "s]" << std::endl;
+    // returns the output, as well as the actual time taken for calculation (useful later)
     return {((double) std::clock() - clock_initial) / CLOCKS_PER_SEC, time};
 }
 
@@ -96,9 +107,13 @@ int main() {
     double kill_time = 0.3; // In seconds. This is how much patience we (programmer) have
     std::pair<double, long double> output;
     // Loop until it takes more than [kill_time] seconds to calculate the next answer
-    for (; output.first < kill_time;) {
+    for (; output.first < kill_time;) { // We run this many times, increasing the accuracy every time by making the step closer to 0. This somewhat approximates an integral (continuous sum).
         output = run(time_increment /= 10); // Calculate the time taken
     }
+    /*
+     * We calculate the end result in Vulcans per second by dividing the total population by total time. (v/s) = v/s.
+     * We do the same for Vulcans per minute by converting seconds into minutes.
+     */
     std::cout << "end result: required average of " << population / (output.second) << " people per second, or " << population / ((output.second) / 60) << " people per minute";
-    return 1;
+    return 1; // because c++ is c++
 }
