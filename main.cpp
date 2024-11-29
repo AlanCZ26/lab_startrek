@@ -82,6 +82,8 @@ std::pair<double, long double> run(const double& time_increment) {
          * The distance traveled is approximated by the average velocity in some interval, multiplied by the length of that interval.
          */
         distance -= ((velocity + prev_velocity) / 2) * time_increment;
+
+        prev_velocity = velocity;
     }
     std::cout << "step:" << time_increment <<"s; result time: " << time << "s, or " << time / 60 << "mins" << " >>> [processing time:" << (clock() - clock_initial)/ CLOCKS_PER_SEC << "s]" << std::endl;
     return {((double) std::clock() - clock_initial) / CLOCKS_PER_SEC, time};
