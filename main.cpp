@@ -6,6 +6,8 @@
  * Any variables mentioned in comments will be in [] square brackets for clarity.
  */
 
+// Code and formulas done by Alan Zhao and Ryan Pan
+
 
 std::pair<double, long double> run(const double& time_increment) {
     // [time_increment] is in seconds; passed in
@@ -22,9 +24,9 @@ std::pair<double, long double> run(const double& time_increment) {
     double gravity; // Variable used during calculations
     long double time = 0; // in seconds, this is the output variable
 
-    double prev_velocity = 0; // Used during calculations; allows for calculations to be based on the average velocity during an interval
     double velocity = 0; // We will assume that the probe is dropped at 0 velocity, rather than at any appreciable speed.
     // This will increase the total estimate time, as the probe will be slower at every time step compared to if it were launched.
+    double prev_velocity = velocity; // Used during calculations; allows for calculations to be based on the average velocity during an interval
 
     double distance = 2000.0 * 1000.0 + radius; // In meters. We add the radius (distance surface -> core) to the distance from the probe to the surface to find total initial distance.
     // We use this variable to keep track of progress.
@@ -108,8 +110,8 @@ int main() {
     double kill_time = 0.3; // In seconds. This is how much patience we (programmer) have
     std::pair<double, long double> output;
     // Loop until it takes more than [kill_time] seconds to calculate the next answer
-    for (; output.first < kill_time;) { // We run this many times, increasing the accuracy every time by making the step closer to 0. This somewhat approximates an integral (continuous sum).
-        output = run(time_increment /= 10); // Calculate the time taken
+    for (; output.first < kill_time;) { // We run this many times, increasing the precision every time by making the step closer to 0. As the step approaches 0, our approximation approaches the true value, or the continuous sum.
+        output = run(time_increment /= 10); // Calculate the time taken, and reduce the time increment
     }
     /*
      * We calculate the end result in Vulcans per second by dividing the total population by total time. (v/s) = v/s.
