@@ -1,3 +1,0 @@
-C:/Users/alanc/CLionProjects/lab_startrek/cmake-build-debug/CMakeFiles/lab_startrek.dir
-C:/Users/alanc/CLionProjects/lab_startrek/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/alanc/CLionProjects/lab_startrek/cmake-build-debug/CMakeFiles/rebuild_cache.dir
