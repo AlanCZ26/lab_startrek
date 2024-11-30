@@ -1,0 +1,11 @@
+I've pasted the program outputs here for convenience. The program doesn't actually create this file.
+step:1000s; result time: 2000s, or 33.3333mins >>> [processing time:0.001s]
+step:100s; result time: 1400s, or 23.3333mins >>> [processing time:0.001s]
+step:10s; result time: 1360s, or 22.6667mins >>> [processing time:0.002s]
+step:1s; result time: 1359s, or 22.65mins >>> [processing time:0.001s]
+step:0.1s; result time: 1358.7s, or 22.645mins >>> [processing time:0.001s]
+step:0.01s; result time: 1358.65s, or 22.6442mins >>> [processing time:0.006s]
+step:0.001s; result time: 1358.65s, or 22.6441mins >>> [processing time:0.054s]
+step:0.0001s; result time: 1358.65s, or 22.6441mins >>> [processing time:0.459s]
+end result: required average of 5.15219e+06 people per second, or 3.09131e+08 people per minute
+Process finished with exit code 1
